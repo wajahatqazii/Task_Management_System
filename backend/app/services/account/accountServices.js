@@ -10,11 +10,14 @@ const accountService = {
   login: async (body) => {
     const { email, password } = body;
     const selectedUser = await Account.findOne({ email }).lean();
-    if (helper.decrypt(selectedUser?.password) === password) {
-      delete selectedUser?.password;
-      const user = { ...selectedUser };
-      return await helper.jwt.createJWT(null, user);
+    if (selectedUser) {
+      if (helper.decrypt(selectedUser?.password) === password) {
+        delete selectedUser?.password;
+        const user = { ...selectedUser };
+        return await helper.jwt.createJWT(null, user);
+      }
     }
+
     error.status = "UNAUTHORIZED";
     error.message = `Account unauthorize to access system`;
     throw error;
@@ -29,7 +32,7 @@ const accountService = {
         first_name,
         last_name,
         email,
-        password,
+        password: helper.encrypt(password),
       });
       await addUser.save();
       const token = await accountService.login({

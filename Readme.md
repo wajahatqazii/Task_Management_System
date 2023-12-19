@@ -8,6 +8,12 @@ Node Version 19
 
 npm install
 
+## Test Cases
+
+# Run Command
+
+npm run test
+
 # Start Project
 
 npm start

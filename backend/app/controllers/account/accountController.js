@@ -7,7 +7,13 @@ module.exports = {
       const token = await accountService.login(body);
       if (token)
         return helper.apiResponse(res, false, "User Login Successfully", token);
-      return helper.apiResponse(res, true, "User Not Login Successfully", null);
+      return helper.apiResponse(
+        res,
+        true,
+        "Invalid credentials",
+        null,
+        "UNAUTHORIZED"
+      );
     } catch (err) {
       const statusCode = err.status || "INTERNAL_SERVER_ERROR";
       return helper.apiResponse(res, true, err.message, null, statusCode);

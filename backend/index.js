@@ -17,7 +17,9 @@ app.get("/", function (req, res, next) {
 });
 
 // listen for requests
-var port = process.env.PORT || 3012;
+var port = process.env.TEST_ENV ? 3011 : process.env.PORT || 3012;
 app.listen(port, () => {
   console.log(`Hi!!! Server is listening on port ${port}`);
 });
+
+module.exports = app;
